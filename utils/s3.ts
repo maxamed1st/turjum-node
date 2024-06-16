@@ -12,7 +12,7 @@ const S3 = new S3Client({
 
 const storage = multerS3({
   s3: S3,
-  bucket: "turjum"
+  bucket: process.env.AWS_BUCKET
 });
 
 export default storage;
