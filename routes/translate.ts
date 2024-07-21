@@ -4,11 +4,6 @@ import translate from "../controller/translate";
 
 const router = Router();
 
-router.get('/', translate);
-
-router.post("/", (_req, res) => {
-  res.json("walaalka");
-  res.end();
-})
+router.post('/', translate);
 
 export default router;
