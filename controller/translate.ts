@@ -6,8 +6,6 @@ import { writeFileSync } from "fs";
 import { documentTranslationResponse } from "../file";
 
 type translationProps = {
-  projectId: any,
-  location: any,
   inputUri: any,
   sourceLang?: any,
   targetLang?: any,
@@ -15,8 +13,7 @@ type translationProps = {
 }
 
 function translate(
-  { projectId,
-    location,
+  { 
     inputUri,
     sourceLang = "en",
     targetLang = "so",
@@ -25,6 +22,8 @@ function translate(
 ) {
   // Instantiates a client
   const translationClient = new TranslationServiceClient();
+  const projectId = process.env.PROJECT_ID;
+  const location = process.env.LOCATION;
 
   const documentInputConfig = {
     gcsSource: {
@@ -60,15 +59,11 @@ function translate(
 
 export default async function handler(req: Request, res: Response) {
   try {
-    const projectId = process.env.projectId;
-    const location = process.env.GOOGLE_LOCATION;
-    const { sourceLang, targetLang, uri, outputUriPrefix } = req.query;
+    const { sourceLang, targetLang, inputUri, outputUriPrefix } = req.query;
     log("query", req.query);
 
     const response = await translate({
-      projectId,
-      location,
-      inputUri: uri,
+      inputUri,
       sourceLang,
       targetLang,
       outputUriPrefix
